@@ -251,7 +251,8 @@ def detalle_producto(product_id: int) -> str:
     return render_template("detail.html", producto=producto)
 
 
+
 if __name__ == "__main__":
     os.makedirs(BASE_DIR / "data", exist_ok=True)
     init_db()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
