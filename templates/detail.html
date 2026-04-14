@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Detalle del producto{% endblock %}
+{% block content %}
+<section class="card detail-card">
+    <h2>{{ producto.nombre }}</h2>
+    <div class="detail-grid">
+        <div><strong>ID:</strong> {{ producto.id }}</div>
+        <div><strong>Categoría:</strong> {{ producto.categoria }}</div>
+        <div><strong>Marca:</strong> {{ producto.marca }}</div>
+        <div><strong>Cantidad:</strong> {{ producto.cantidad }}</div>
+        <div><strong>Precio unitario:</strong> ${{ '%.2f'|format(producto.precio) }}</div>
+        <div><strong>Precio con IVA:</strong> ${{ '%.2f'|format(precio_con_iva(producto.precio)) }}</div>
+        <div><strong>Valor total:</strong> ${{ '%.2f'|format(valor_total(producto.cantidad, producto.precio)) }}</div>
+        <div><strong>Registrado:</strong> {{ producto.created_at }}</div>
+    </div>
+    <div class="description">
+        <strong>Descripción:</strong>
+        <p>{{ producto.descripcion or 'Sin descripción.' }}</p>
+    </div>
+    <div class="button-row">
+        <a class="btn btn-warning" href="{{ url_for('editar_producto', product_id=producto.id) }}">Editar</a>
+        <a class="btn btn-light" href="{{ url_for('index') }}">Volver</a>
+    </div>
+</section>
+{% endblock %}

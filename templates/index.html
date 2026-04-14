@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Inicio | Inventario{% endblock %}
+{% block content %}
+<section class="dashboard">
+    <div class="card stat">
+        <h3>Total de unidades</h3>
+        <p>{{ total_items }}</p>
+    </div>
+    <div class="card stat">
+        <h3>Valor del inventario</h3>
+        <p>${{ '%.2f'|format(total_inventario) }}</p>
+    </div>
+    <div class="card stat">
+        <h3>IVA configurado</h3>
+        <p>{{ (iva_rate * 100)|int }}%</p>
+    </div>
+</section>
+
+<section class="card">
+    <form method="get" class="search-form">
+        <input type="text" name="q" placeholder="Buscar por nombre, categoría o marca" value="{{ query }}">
+        <button type="submit" class="btn">Buscar</button>
+    </form>
+</section>
+
+<section class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Marca</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Precio + IVA</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.id }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.categoria }}</td>
+                    <td>{{ producto.marca }}</td>
+                    <td>{{ producto.cantidad }}</td>
+                    <td>${{ '%.2f'|format(producto.precio) }}</td>
+                    <td>${{ '%.2f'|format(precio_con_iva(producto.precio)) }}</td>
+                    <td>${{ '%.2f'|format(valor_total(producto.cantidad, producto.precio)) }}</td>
+                    <td class="actions">
+                        <a class="btn btn-small" href="{{ url_for('detalle_producto', product_id=producto.id) }}">Ver</a>
+                        <a class="btn btn-small btn-warning" href="{{ url_for('editar_producto', product_id=producto.id) }}">Editar</a>
+                        <form method="post" action="{{ url_for('eliminar_producto', product_id=producto.id) }}" onsubmit="return confirm('¿Desea eliminar este producto?');">
+                            <button type="submit" class="btn btn-small btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9" class="empty">No hay productos registrados.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{{ accion }} producto{% endblock %}
+{% block content %}
+<section class="card form-card">
+    <h2>{{ accion }} producto</h2>
+    <form method="post" class="grid-form">
+        <label>
+            Nombre
+            <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+        </label>
+        <label>
+            Categoría
+            <input type="text" name="categoria" value="{{ producto.categoria }}" required>
+        </label>
+        <label>
+            Marca
+            <input type="text" name="marca" value="{{ producto.marca }}" required>
+        </label>
+        <label>
+            Cantidad
+            <input type="number" name="cantidad" min="0" value="{{ producto.cantidad }}" required>
+        </label>
+        <label>
+            Precio unitario
+            <input type="number" name="precio" min="0" step="0.01" value="{{ producto.precio }}" required>
+        </label>
+        <label class="full-width">
+            Descripción
+            <textarea name="descripcion" rows="4">{{ producto.descripcion }}</textarea>
+        </label>
+
+        <div class="full-width button-row">
+            <button type="submit" class="btn">{{ accion }}</button>
+            <a href="{{ url_for('index') }}" class="btn btn-light">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
